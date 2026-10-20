@@ -61,7 +61,7 @@ class BookingController extends Controller
     // Halaman Dashboard Admin (Hanya Menampilkan Antrean Hari Ini)
     public function dashboard()
     {
-        $antreans = Booking::whereDate('created_at', now()->today())
+        $antreans = Booking::whereDate('created_at', now())
                            ->orderBy('created_at', 'asc')
                            ->get();
 
