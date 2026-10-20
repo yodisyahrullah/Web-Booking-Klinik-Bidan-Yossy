@@ -22,7 +22,7 @@ class BookingController extends Controller
             'keperluan'   => 'required|string|max:255',
         ]);
 
-        // Hitung antrean hari ini dan Format dengan 3 digit (A-001, A-002, dst) yang otomatis reset tiap tanggal baru
+        // Buat nomor antrean dengan format 3 digit (A-001, A-002, dst) yang otomatis reset setiap ganti hari
         $countToday = Booking::whereDate('created_at', now()->today())->count();
         $noAntrean  = 'A-' . str_pad($countToday + 1, 3, '0', STR_PAD_LEFT);
 
@@ -58,10 +58,13 @@ class BookingController extends Controller
         ]);
     }
 
-    // Halaman Dashboard Admin
+    // Halaman Dashboard Admin (Hanya Menampilkan Antrean Hari Ini)
     public function dashboard()
     {
-        $antreans = Booking::orderBy('created_at', 'asc')->get();
+        $antreans = Booking::whereDate('created_at', now()->today())
+                           ->orderBy('created_at', 'asc')
+                           ->get();
+
         return view('dashboard', compact('antreans'));
     }
 
@@ -71,24 +74,23 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->increment('jumlah_panggil');
         
-        // Update status ke dipanggil jika masih menunggu
         if (strtolower($booking->status) == 'menunggu') {
-            $booking->status = 'dipanggil'; // Jika di DB peka huruf besar: 'Dipanggil' / 'DIPANGGIL'
+            $booking->status = 'dipanggil';
             $booking->save();
         }
 
         return redirect()->back()->with('success', 'Antrean ' . $booking->no_antrean . ' dipanggil.');
     }
 
-    // Aksi Selesai / Dilayani (DIEDIT AGAR TIDAK ERROR CHECK CONSTRAINT)
-   public function dilayani($id)
-{
-    $booking = Booking::findOrFail($id);
-    $booking->status = 'dilayani'; // <--- Ubah jadi 'dilayani'
-    $booking->save();
+    // Aksi Selesai / Dilayani
+    public function dilayani($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->status = 'selesai'; 
+        $booking->save();
 
-    return redirect()->back()->with('success', 'Antrean berhasil diselesaikan.');
-}
+        return redirect()->back()->with('success', 'Antrean ' . $booking->no_antrean . ' selesai dilayani.');
+    }
 
     // Aksi Hapus Antrean
     public function destroy($id)
