@@ -11,4 +11,4 @@ Aplikasi web manajemen dan pendaftaran antrean pasien online untuk Klinik Bidan 
 ## Cara Menjalankan Project (Installation)
 1. Clone repository ini:
    ```bash
-   git clone [https://github.com/yodisiyahrullah/Web-Booking-Klinik-Bidan-Yossy.git]
+   git clone [https://github.com/yodisyahrullah/Web-Booking-Klinik-Bidan-Yossy.git]
