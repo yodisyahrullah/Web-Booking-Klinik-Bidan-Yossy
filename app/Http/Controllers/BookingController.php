@@ -72,8 +72,14 @@ class BookingController extends Controller
     public function panggil($id)
     {
         $booking = Booking::findOrFail($id);
+
+        // Cek jika jumlah panggil sudah mencapai 3 kali
+        if ($booking->jumlah_panggil >= 3) {
+            return redirect()->back()->with('error', 'Antrean ini sudah dipanggil maksimal 3 kali!');
+        }
+
         $booking->increment('jumlah_panggil');
-        
+
         if (strtolower($booking->status) == 'menunggu') {
             $booking->status = 'dipanggil';
             $booking->save();

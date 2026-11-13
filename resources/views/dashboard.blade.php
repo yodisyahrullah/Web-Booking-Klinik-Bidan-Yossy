@@ -57,6 +57,12 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-xl text-xs mb-4 font-bold">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -110,13 +116,20 @@
 
                                         <form action="{{ route('admin.panggil', $item->id) }}" method="POST" class="inline">
                                             @csrf
-                                            <button type="submit" class="text-white text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1 shadow-sm transition cursor-pointer hover:opacity-90" style="background-color: #0E8388;">
-                                                <i class="fa-solid fa-volume-high text-[10px]"></i> PANGGIL
-                                            </button>
+                                            @if($item->jumlah_panggil >= 3)
+                                                <button type="button" disabled class="bg-gray-300 text-gray-500 text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1 shadow-sm cursor-not-allowed">
+                                                    <i class="fa-solid fa-ban text-[10px]"></i> MAX (3X)
+                                                </button>
+                                            @else
+                                                <button type="submit" class="text-white text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1 shadow-sm transition cursor-pointer hover:opacity-90" style="background-color: #0E8388;">
+                                                    <i class="fa-solid fa-volume-high text-[10px]"></i> PANGGIL ({{ $item->jumlah_panggil }}/3)
+                                                </button>
+                                            @endif
                                         </form>
 
                                         <form action="{{ route('admin.dilayani', $item->id) }}" method="POST" class="inline">
                                             @csrf
+                                            @method('PATCH')
                                             <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1 transition cursor-pointer">
                                                 <i class="fa-solid fa-check text-[10px]"></i> SELESAI
                                             </button>

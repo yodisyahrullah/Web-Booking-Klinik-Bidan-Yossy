@@ -17,7 +17,7 @@ return new class extends Migration
         $table->string('nama_pasien');
         $table->string('no_wa');
         $table->string('keperluan');
-        $table->enum('status', ['menunggu', 'dipanggil', 'dilayani', 'dilewati'])->default('menunggu');
+        $table->string('status', ['menunggu', 'dipanggil', 'dilayani', 'dilewati'])->default('menunggu');
         $table->integer('jumlah_panggil')->default(0); 
         $table->timestamps();
     });
