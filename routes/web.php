@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
 
 // Halaman Utama & Booking Form (Public)
-Route::get('/', [BookingController::class, 'index'])->name('booking.index');
-Route::get('/booking', [BookingController::class, 'index']); 
+Route::get('/', [BookingController::class, 'createForm'])->name('booking.index');
+Route::get('/booking', [BookingController::class, 'createForm']); 
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/booking/tiket/{id}', [BookingController::class, 'tiket'])->name('booking.tiket');
 
@@ -14,7 +14,8 @@ Route::get('/booking/check-status/{id}', [BookingController::class, 'checkStatus
 
 // Route Khusus Admin (Harus Login)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [BookingController::class, 'dashboard'])->name('dashboard');
+    // Dashboard Admin (Menggunakan fungsi index yang sudah ada fitur search-nya)
+    Route::get('/dashboard', [BookingController::class, 'index'])->name('dashboard');
     
     // Route Profile
     Route::get('/profile', function () {

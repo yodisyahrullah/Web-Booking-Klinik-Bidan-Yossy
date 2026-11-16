@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class BookingController extends Controller
 {
     // Halaman Form Booking Pasien
-    public function index()
+    public function createForm()
     {
         return view('booking.index');
     }
@@ -58,12 +58,17 @@ class BookingController extends Controller
         ]);
     }
 
-    // Halaman Dashboard Admin (Hanya Menampilkan Antrean Hari Ini)
-    public function dashboard()
+    // Halaman Dashboard Admin (Dilengkapi Fitur Search & Filter Hari Ini)
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
         $antreans = Booking::whereDate('created_at', now())
-                           ->orderBy('created_at', 'asc')
-                           ->get();
+            ->when($search, function ($query, $search) {
+                return $query->where('nama_pasien', 'like', '%' . $search . '%');
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return view('dashboard', compact('antreans'));
     }
@@ -106,4 +111,4 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Antrean berhasil dihapus.');
     }
-}
+}   

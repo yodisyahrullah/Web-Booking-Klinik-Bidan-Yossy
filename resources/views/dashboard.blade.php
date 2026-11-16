@@ -46,9 +46,25 @@
         <!-- Frame Tabel Daftar Antrean -->
         <div class="bg-white rounded-[35px] border-[4px] p-6 shadow-xl" style="border-color: #0E8388;">
             
-            <div class="flex items-center gap-3 mb-6">
-                <span class="w-4 h-4 rounded-full inline-block" style="background-color: #0E8388;"></span>
-                <h2 class="text-lg font-extrabold text-gray-900">Daftar Antrean Hari Ini</h2>
+            <!-- Header Judul & Fitur Search -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="w-4 h-4 rounded-full inline-block" style="background-color: #0E8388;"></span>
+                    <h2 class="text-lg font-extrabold text-gray-900">Daftar Antrean Hari Ini</h2>
+                </div>
+
+                <!-- Form Search Pasien -->
+                <form action="{{ route('dashboard') }}" method="GET" class="flex items-center gap-2 w-full md:w-auto">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama pasien..." class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#0E8388] w-full md:w-64 font-bold">
+                    <button type="submit" class="text-white text-xs font-black px-4 py-2.5 rounded-xl transition cursor-pointer hover:opacity-90 shadow-sm" style="background-color: #0E8388;">
+                        <i class="fa-solid fa-search"></i> CARI
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('dashboard') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-black px-3.5 py-2.5 rounded-xl transition shadow-sm">
+                            RESET
+                        </a>
+                    @endif
+                </form>
             </div>
 
             @if(session('success'))
@@ -129,7 +145,6 @@
 
                                         <form action="{{ route('admin.dilayani', $item->id) }}" method="POST" class="inline">
                                             @csrf
-                                            @method('PATCH')
                                             <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1 transition cursor-pointer">
                                                 <i class="fa-solid fa-check text-[10px]"></i> SELESAI
                                             </button>
