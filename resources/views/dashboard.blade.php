@@ -167,6 +167,11 @@
                 </table>
             </div>
 
+            <!-- Navigasi Halaman / Pagination -->
+            <div class="mt-4">
+                {{ $antreans->withQueryString()->links() }}
+            </div>
+
         </div>
 
     </div>

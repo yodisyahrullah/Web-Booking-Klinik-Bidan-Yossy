@@ -68,7 +68,7 @@ class BookingController extends Controller
                 return $query->where('nama_pasien', 'like', '%' . $search . '%');
             })
             ->orderBy('created_at', 'asc')
-            ->get();
+            ->paginate(5); // <-- Pastikan ini pakai paginate(5), bukan get()!
 
         return view('dashboard', compact('antreans'));
     }
