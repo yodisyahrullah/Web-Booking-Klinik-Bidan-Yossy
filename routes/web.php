@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController; // <-- Tambahkan baris ini di atas
 
 // Halaman Utama & Booking Form (Public)
 Route::get('/', [BookingController::class, 'createForm'])->name('booking.index');
@@ -17,13 +18,12 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard Admin
     Route::get('/dashboard', [BookingController::class, 'index'])->name('dashboard');
     
-    // Halaman Laporan (Pastikan baris ini ada!)
+    // Halaman Laporan
     Route::get('/admin/laporan', [BookingController::class, 'laporan'])->name('admin.laporan');
     
-    // Route Profile
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name('admin.profile');
+    // Route Profile & Update Profile (CRUD)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
 
     // Aksi Admin Antrean
     Route::post('/admin/panggil/{id}', [BookingController::class, 'panggil'])->name('admin.panggil');
