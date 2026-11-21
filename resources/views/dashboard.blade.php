@@ -17,7 +17,7 @@
 
     <div class="max-w-6xl mx-auto space-y-6">
 
-        <!-- Frame Header Admin -->
+       <!-- Frame Header Admin -->
         <div class="bg-white rounded-[30px] border-[5px] p-4 md:p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4" style="border-color: #0E8388;">
             <div class="flex items-center gap-4">
                 <img src="https://i.ibb.co.com/PzNV2Yyx/Screenshot-2026-07-30-103908-removebg-preview.png" alt="Mom Sweet Baby" class="h-16 md:h-20 object-contain">
@@ -27,10 +27,16 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 md:gap-6">
+                <!-- Tombol ke Halaman Laporan -->
+                <a href="{{ route('admin.laporan') }}" class="text-center hover:opacity-85 transition cursor-pointer">
+                    <i class="fa-solid fa-file-lines text-3xl text-gray-800"></i>
+                    <p class="text-[10px] font-black uppercase tracking-wider text-gray-700 mt-0.5">LAPORAN</p>
+                </a>
+
                 <!-- Tombol Profile -->
                 <a href="{{ route('admin.profile') }}" class="text-center hover:opacity-85 transition cursor-pointer">
-                    <i class="fa-regular fa-circle-user text-4xl text-gray-800"></i>
+                    <i class="fa-regular fa-circle-user text-3xl text-gray-800"></i>
                     <p class="text-[10px] font-black uppercase tracking-wider text-gray-700 mt-0.5">PROFILE</p>
                 </a>
 
@@ -42,7 +48,7 @@
                 </form>
             </div>
         </div>
-
+        
         <!-- Frame Tabel Daftar Antrean -->
         <div class="bg-white rounded-[35px] border-[4px] p-6 shadow-xl" style="border-color: #0E8388;">
             

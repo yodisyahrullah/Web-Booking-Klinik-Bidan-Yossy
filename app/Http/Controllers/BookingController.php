@@ -68,7 +68,7 @@ class BookingController extends Controller
                 return $query->where('nama_pasien', 'like', '%' . $search . '%');
             })
             ->orderBy('created_at', 'asc')
-            ->paginate(5); // <-- Pastikan ini pakai paginate(5), bukan get()!
+            ->paginate(5);
 
         return view('dashboard', compact('antreans'));
     }
@@ -111,4 +111,22 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Antrean berhasil dihapus.');
     }
-}   
+
+    // Halaman Laporan Antrean Berdasarkan Filter Tanggal
+    public function laporan(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Ambil data berdasarkan filter tanggal, jika kosong tampilkan data hari ini
+        $laporans = Booking::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+            }, function ($query) {
+                return $query->whereDate('created_at', now()); // Default hari ini jika belum difilter
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.laporan', compact('laporans', 'startDate', 'endDate'));
+    }
+}

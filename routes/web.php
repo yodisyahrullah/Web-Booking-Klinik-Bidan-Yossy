@@ -14,8 +14,11 @@ Route::get('/booking/check-status/{id}', [BookingController::class, 'checkStatus
 
 // Route Khusus Admin (Harus Login)
 Route::middleware(['auth'])->group(function () {
-    // Dashboard Admin (Menggunakan fungsi index yang sudah ada fitur search-nya)
+    // Dashboard Admin
     Route::get('/dashboard', [BookingController::class, 'index'])->name('dashboard');
+    
+    // Halaman Laporan (Pastikan baris ini ada!)
+    Route::get('/admin/laporan', [BookingController::class, 'laporan'])->name('admin.laporan');
     
     // Route Profile
     Route::get('/profile', function () {
